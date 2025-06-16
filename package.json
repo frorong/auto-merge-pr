@@ -1,0 +1,33 @@
+{
+  "name": "auto-merge-pr",
+  "version": "0.0.1",
+  "description": "Auto merge PRs",
+  "author": "sjlee",
+  "license": "ISC",
+  "keywords": [
+    "auto-merge-pr",
+    "auto-merge",
+    "merge",
+    "pr",
+    "github",
+    "actions"
+  ],
+  "devDependencies": {
+    "@types/node": "^24.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "bin": {
+    "auto-merge-pr": "bin/cli.js"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node bin/cli.ts"
+  },
+  "dependencies": {
+    "axios": "^1.10.0",
+    "commander": "^14.0.0"
+  }
+}

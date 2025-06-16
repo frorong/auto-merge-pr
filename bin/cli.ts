@@ -7,23 +7,28 @@ import fs from "fs";
 const program = new Command();
 
 program
-  .requiredOption("-t, --token <token>", "GitHub token")
-  .requiredOption("-o, --owner <owner>", "GitHub owner")
-  .requiredOption("-r, --repo <repo>", "GitHub repo")
-  .requiredOption(
-    "-d, --threshold <days>",
-    "PR opened days threshold",
-    parseFloat
-  )
-  .option("-l, --label <label>", "Label that must exist for auto merge")
-  .option(
-    "-m, --merge-method <method>",
-    "Merge method: merge, squash, rebase",
-    "squash"
-  )
-  .parse();
+  .name("auto-merge-pr")
+  .description("Automatically merge GitHub PRs based on age and label")
+  .option("-t, --token <token>", "GitHub token")
+  .option("-o, --owner <owner>")
+  .option("-r, --repo <repo>")
+  .option("-d, --threshold <days>", "PR opened days threshold", parseFloat)
+  .option("-a, --after <duration>", "Merge PRs after duration (e.g. 3d4h30m)")
+  .option("-l, --label <label>")
+  .option("-m, --merge-method <method>", "merge | squash | rebase", "squash")
+  .action(async (opts) => {
+    if (
+      !opts.token ||
+      !opts.owner ||
+      !opts.repo ||
+      (!opts.threshold && !opts.after)
+    ) {
+      console.error("❌ Missing required options. Use --help for usage.");
+      process.exit(1);
+    }
 
-autoMergePRs(program.opts());
+    await autoMergePRs(opts);
+  });
 
 program
   .command("setup")
@@ -65,3 +70,5 @@ jobs:
     fs.writeFileSync(workflowPath, content, "utf-8");
     console.log(`✅ GitHub Action workflow created at: ${workflowPath}`);
   });
+
+program.parse();

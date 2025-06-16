@@ -1,6 +1,6 @@
 {
   "name": "auto-merge-pr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Auto merge PRs",
   "author": "sjlee",
   "license": "ISC",
